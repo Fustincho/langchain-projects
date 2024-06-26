@@ -1,0 +1,22 @@
+services:
+  langchain_backend:
+    build: ./fastapi
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./fastapi/.env
+    networks:
+      - app-network
+
+  gradio_frontend:
+    build: ./gradio
+    ports:
+      - "7860:7860"
+    networks:
+      - app-network
+    depends_on:
+      - langchain_backend
+
+networks:
+  app-network:
+    driver: bridge
